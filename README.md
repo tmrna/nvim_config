@@ -1,5 +1,6 @@
 # Current version: 0.1 
 Colorschme: gruvbox
+# 
 extra tools: Nvim-Tree, Autopairs, Copilot.
 
 
