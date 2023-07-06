@@ -1,3 +1,10 @@
+# Current version: 0.1 
+Colorschme: gruvbox
+extra tools: Nvim-Tree, Autopairs, Copilot.
+
+
+# BELOW ARE THE INSTRUCTIONS FROM KICKSTART NVIM, FOR USE WITH CONFIG, ETC
+
 # kickstart.nvim
 
 ### Introduction
