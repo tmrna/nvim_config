@@ -137,15 +137,6 @@ require('lazy').setup({
 --      vim.cmd.colorscheme 'onedark'
 --    end,
 --  },
-
--- easy on the eyes colorscheme, gruvbox
-  {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'gruvbox'
-    end,
-  },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -211,6 +202,8 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   { import = 'custom.plugins' },
+  { import = 'custom.keymaps'},
+  { import = 'custom.colorschemes'}
 }, {})
 
 -- [[ Setting options ]]
@@ -382,7 +375,6 @@ require('nvim-treesitter.configs').setup {
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', {noremap=true})
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
