@@ -13,4 +13,8 @@ return{
   vim.keymap.set('n', '<leader>tb', ':tabfirst<CR>', {desc = "go to first/[B]eginning tab"}),
   -- go to ending tab 
   vim.keymap.set('n', '<leader>te', ':tablast<CR>', {desc = "go to last/[E]nding tab"}),
+  -- create terminal tab
+  vim.keymap.set('n', '<leader>tt', ':tabnew | terminal<CR>', {desc = "[T]erminal tab"}),
+  -- go to tab number
+  vim.keymap.set('n', '<leader>tg', ':tab <space>', {desc = "[G]o to tab number"}),
 }
