@@ -40,6 +40,8 @@ P.S. You can delete this when you're done too. It's your config now :)
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.o.number = true
+vim.o.relativenumber = true
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -144,7 +146,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'material',
         component_separators = '|',
         section_separators = '',
       },
@@ -157,8 +159,10 @@ require('lazy').setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     opts = {
+      indent = {
       char = '┊',
       show_trailing_blankline_indent = false,
+      }
     },
   },
 
@@ -420,6 +424,13 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+
+  -- setting tab width
+  vim.o.tabstop = 5
+  vim.o.softtabstop = 5
+  vim.o.shiftwidth = 5
+  vim.o.expandtab = true
+
 end
 
 -- Enable the following language servers
@@ -516,3 +527,4 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
