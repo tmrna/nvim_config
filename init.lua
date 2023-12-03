@@ -42,6 +42,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.number = true
 vim.o.relativenumber = true
+vim.o.cursorline = true
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -156,12 +157,12 @@ require('lazy').setup({
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     opts = {
       indent = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
+           char = '┊',
       }
     },
   },
@@ -227,6 +228,8 @@ vim.o.mouse = 'a'
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
+vim.keymap.set('n', '<leader>P', '"*p', { desc = '[P]aste from clipboard' })
+vim.keymap.set('v', '<leader>Y', '"*y', { desc = '[Y]ank to system clipboard'})
 
 -- Enable break indent
 vim.o.breakindent = true
