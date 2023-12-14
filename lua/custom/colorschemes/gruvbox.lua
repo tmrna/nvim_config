@@ -1,4 +1,4 @@
-return{
+return {
   -- easy on the eyes colorscheme, gruvbox
   {
     "ellisonleao/gruvbox.nvim",
