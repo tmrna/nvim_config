@@ -1,6 +1,7 @@
 return {
+  -- copilot subsciption ended
 	-- github copilot
-	{
-		"github/copilot.vim",
-	},
+--	{
+	--	"github/copilot.vim",
+  -- },
 }

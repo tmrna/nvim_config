@@ -7,5 +7,9 @@ return {
   -- Telescope
   vim.api.nvim_set_keymap('n', '<leader>sb', ':Telescope git_branches<cr>', { desc = '[S]how git [B]ranches' }),
   vim.api.nvim_set_keymap('n', '<leader>gs', ':Telescope git_status<cr>', { desc = '[G]it [S]tatus' }),
-  vim.api.nvim_set_keymap('n', '<leader>m', ':Telescope marks<cr>', { desc = 'show current [M]arks' })
+  vim.api.nvim_set_keymap('n', '<leader>m', ':Telescope marks<cr>', { desc = 'show current [M]arks' }),
+  -- Regex
+    -- only supporting c-style comments
+  vim.api.nvim_set_keymap('n','<leader>sc', '/\\(\\/\\/\\)\\|\\(\\/\\*\\)<CR>', {desc = 'search comments'})
 }
+

@@ -433,10 +433,10 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 
   -- setting tab width
-  vim.o.tabstop = 2
-  vim.o.softtabstop = 2
-  vim.o.shiftwidth = 2
-  vim.o.expandtab = true
+  vim.opt.tabstop = 2
+  vim.bo.softtabstop = 2
+  vim.opt.shiftwidth = 2
+  vim.opt.expandtab = true
 end
 
 -- Enable the following language servers
@@ -445,7 +445,6 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  -- clangd = {},
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
@@ -537,3 +536,35 @@ vim.cmd 'GitBlameEnable'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- clangd config
+local nvim_lsp = require('lspconfig')
+nvim_lsp.clangd.setup({
+  cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed", "--header-insertion=never" },
+  filetypes = { "c", "cpp" },
+  root_dir = function(fname)
+    return nvim_lsp.util.root_pattern('compile_commands.json')(fname) or
+        nvim_lsp.util.root_pattern('.git')(fname) or
+        nvim_lsp.util.root_pattern('CMakeLists.txt', 'compile_flags.txt', '.git')(fname);
+  end,
+  init_options = {
+    clangdFileStatus = true,
+    usePlaceholders = true,
+    completeUnimported = true,
+    semanticHighlighting = true,
+  },
+  settings = {
+    compileCommands = "compile_commands.json",
+    index = {
+      --background: true,
+      externalPath = pico_sdk_path,
+    },
+    ccls = {
+      compileCommands = "compile_commands.json",
+      index = {
+        --background: true,
+        externalPath = pico_sdk_path,
+      },
+    },
+  },
+})
