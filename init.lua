@@ -433,10 +433,10 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 
   -- setting tab width
-  vim.opt.tabstop = 2
-  vim.bo.softtabstop = 2
-  vim.opt.shiftwidth = 2
-  vim.opt.expandtab = true
+  -- vim.opt.tabstop = 2
+  -- vim.bo.softtabstop = 2
+  -- vim.opt.shiftwidth = 2
+  -- vim.opt.expandtab = true
 end
 
 -- Enable the following language servers
@@ -541,11 +541,11 @@ vim.cmd 'GitBlameEnable'
 local nvim_lsp = require('lspconfig')
 nvim_lsp.clangd.setup({
   cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=detailed", "--header-insertion=never" },
-  filetypes = { "c", "cpp" },
+  filetypes = { "c", "h", "cpp", "hpp" },
   root_dir = function(fname)
     return nvim_lsp.util.root_pattern('compile_commands.json')(fname) or
         nvim_lsp.util.root_pattern('.git')(fname) or
-        nvim_lsp.util.root_pattern('CMakeLists.txt', 'compile_flags.txt', '.git')(fname);
+        nvim_lsp.util.root_pattern('CMakeLists.txt', 'compile_flags.txt', '.git', "Makefile")(fname);
   end,
   init_options = {
     clangdFileStatus = true,
@@ -554,17 +554,29 @@ nvim_lsp.clangd.setup({
     semanticHighlighting = true,
   },
   settings = {
+    clangd = {
+      compileCommandsDir = "build",
+      clangdFileStatus = true,
+      usePlaceholders = true,
+      completeUnimported = true,
+      semanticHighlighting = true,
+      hover = true
+    },
     compileCommands = "compile_commands.json",
     index = {
       --background: true,
-      externalPath = pico_sdk_path,
     },
     ccls = {
       compileCommands = "compile_commands.json",
       index = {
         --background: true,
-        externalPath = pico_sdk_path,
       },
     },
   },
 })
+
+vim.opt.tabstop = 2
+vim.bo.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true, silent = true})
