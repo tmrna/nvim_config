@@ -580,3 +580,11 @@ vim.bo.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true, silent = true})
+
+
+-- colorschemes
+vim.cmd [[colorscheme nightfly]]
+-- vim.cmd [[colorscheme everforest]]
+-- vim.cmd [[colorscheme gruvbox]]
+-- vim.cmd [[colorscheme zellner]]
+-- vim.cmd [[colorscheme habamax]]
