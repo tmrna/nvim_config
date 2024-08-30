@@ -20,6 +20,9 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+
+    -- testing ui 
+    "nvim-neotest/nvim-nio"
   },
   config = function()
     local dap = require 'dap'
@@ -43,12 +46,12 @@ return {
     }
 
     -- Basic debugging keymaps, feel free to change to your liking!
-    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
-    vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
-    vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
-    vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
-    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
-    vim.keymap.set('n', '<leader>B', function()
+    vim.keymap.set('n', '<leader>dc', dap.continue, { desc = '[D]ap [C]ontinue' })
+    vim.keymap.set('n', '<leader>di', dap.step_into, { desc = '[D]ap step [I]nto' })
+    vim.keymap.set('n', '<leader>do', dap.step_over, { desc = '[D]ap step [O]ver' })
+    vim.keymap.set('n', '<leader>du', dap.step_out, { desc = '[D]ap Step O[u]t' })
+    vim.keymap.set('n', '<leader>;', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+    vim.keymap.set('n', '<leader>y', function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end, { desc = 'Debug: Set Breakpoint' })
 
@@ -83,5 +86,48 @@ return {
 
     -- Install golang specific config
     require('dap-go').setup()
+    dap.configurations.java = {
+      {
+        name = "Debug Launch (2GB)";
+        type = 'java';
+        request = 'launch';
+        vmArgs = "" ..
+          "-Xmx2g "
+      },
+      {
+        name = "Debug Attach (8000)";
+        type = 'java';
+        request = 'attach';
+        hostName = "127.0.0.1";
+        port = 8000;
+      },
+      {
+        name = "Debug Attach (5005)";
+        type = 'java';
+        request = 'attach';
+        hostName = "127.0.0.1";
+        port = 5005;
+      },
+      {
+        name = "My Custom Java Run Configuration",
+        type = "java",
+        request = "launch",
+        -- You need to extend the classPath to list your dependencies.
+        -- `nvim-jdtls` would automatically add the `classPaths` property if it is missing
+        -- classPaths = {},
+
+        -- If using multi-module projects, remove otherwise.
+        -- projectName = "yourProjectName",
+
+        -- javaExec = "java",
+        mainClass = "replace.with.your.fully.qualified.MainClass",
+
+        -- If using the JDK9+ module system, this needs to be extended
+        -- `nvim-jdtls` would automatically populate this property
+        -- modulePaths = {},
+        vmArgs = "" ..
+          "-Xmx2g "
+      },
+    }
   end,
 }

@@ -95,6 +95,11 @@ require('lazy').setup({
     },
   },
 
+  -- mason tool install for java tooling
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim"
+  },
+
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -203,7 +208,7 @@ require('lazy').setup({
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   -- require 'kickstart.plugins.autoformat',
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
 
   -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -456,6 +461,7 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  jdtls = {}
 }
 
 -- Setup neovim lua configuration
@@ -472,13 +478,24 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
+-- mason tool installer setup
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    "java-debug-adapter",
+    "java-test"
+  }
+})
+vim.api.nvim_command("MasonToolsInstall")
+
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-    }
+    if server_name ~= 'jdts' then
+      require('lspconfig')[server_name].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = servers[server_name],
+      }
+    end
   end,
 }
 
@@ -529,6 +546,13 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+-- Setup for dadbod completion
+cmp.setup.filetype({ 'sql' }, {
+  sources = {
+    {name = 'vim-dadbod-completion'},
+    {name = "buffer"}
+  }
+})
 
 -- setting colorscheme
 vim.cmd.colorscheme 'gruvbox'
@@ -583,8 +607,10 @@ vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap =
 
 
 -- colorschemes
-vim.cmd [[colorscheme nightfly]]
+-- vim.cmd [[colorscheme nightfly]]
 -- vim.cmd [[colorscheme everforest]]
 -- vim.cmd [[colorscheme gruvbox]]
 -- vim.cmd [[colorscheme zellner]]
 -- vim.cmd [[colorscheme habamax]]
+-- vim.cmd [[colorscheme nord]]
+vim.cmd [[colorscheme sonokai]]
