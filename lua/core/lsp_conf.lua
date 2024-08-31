@@ -9,14 +9,6 @@ return {
 		},
 		{
 			"williamboman/mason-lspconfig.nvim",
-			opts = {
-				ensure_installed = vim.tbl_keys({
-					lua_ls = {
-						workspace = { checkThirdParty = false },
-						telemetry = { enable = false }
-					}
-				})
-			}
 		},
 		{
 			-- switching to lazydev, neodev is EOL
@@ -78,9 +70,6 @@ return {
 
 		-- define servers that should be installed
 		local servers = {
-			rust_analyzer = {},
-			gopls = {},
-			tsserver = {},
 			lua_ls = {
 				workspace = { checkThirdParty = false },
 				telemetry = { enable = false }
