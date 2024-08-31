@@ -1,18 +1,34 @@
--- Basic configs, leader, line numbers, etc
+-- vim settings
+-- leader
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.cursorline = true
-vim.o.spelllang = 'en_us'
 
--- search settings with "/"
+-- search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.hlsearch = false
 
--- use system clipboard
+-- line numbers
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.cursorline = true
+
+-- use sys clipboard
 vim.o.clipboard = 'unnamedplus'
+
+-- enable signcolumn for git integration
+vim.wo.signcolumn = 'yes'
+
+-- decrease update time
+vim.o.updatetime = 250
+vim.o.timeout = true
+vim.o.timeoutlen = 300
+
+-- enable termgui colors
+vim.o.termguicolors = true
+
+-- spell language
+vim.spelllang = 'en_us'
 
 -- install lazy
 local path_to_lazy = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -30,11 +46,25 @@ vim.opt.rtp:prepend(path_to_lazy)
 
 -- import modules for lazy to handle
 require('lazy').setup({
-	{import = "core"},
-	{import = "plugins"},
-	{import = "keymaps"},
-	{import = "colorschemes"}
+	{ import = "core" },
+	{ import = "plugins" },
+	{ import = "keymaps" },
+	{ import = "colorschemes" }
 }, {})
 
--- load fzf native 
+-- load fzf native
 pcall(require('telescope').load_extension, 'fzf')
+
+-- select colorscheme
+vim.cmd [[colorscheme gruvbox]]
+
+-- config treesitter
+require('nvim-treesitter.configs').setup {
+	ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+
+	-- don't attempt to install on buff load
+	auto_install = false,
+
+	highlight = { enable = true },
+	indent = { enable = true },
+}
