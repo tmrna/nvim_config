@@ -3,6 +3,6 @@ return {
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
-		opts = {} -- equivalent to setup({})
+		opts = {}
 	}
 }

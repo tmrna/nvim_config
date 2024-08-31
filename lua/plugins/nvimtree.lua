@@ -1,5 +1,4 @@
 return {
-	-- nvim-tree, use <leader>e to access
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
@@ -19,5 +18,9 @@ return {
 	{
 		"nvim-tree/nvim-web-devicons",
 		dependencies = {},
-	}
+	},
+
+	-- keymaps
+	vim.keymap.set('n', '<leader>e', ':NvimTreeFindFileToggle<CR>', {noremap = true, desc = 'Open nvim tree'}),
+	vim.keymap.set('n', '<leader>nf', ':NvimTreeFindFile<CR>', {noremap = true, desc = 'Open at current file in nvim tree'})
 }
