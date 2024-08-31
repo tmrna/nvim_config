@@ -30,6 +30,22 @@ vim.o.termguicolors = true
 -- spell language
 vim.spelllang = 'en_us'
 
+-- completion helper
+vim.o.completeopt = 'menuone,noselect'
+
+-- save undo history
+vim.o.undofile = true
+
+-- highlight yank
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
+
 -- install lazy
 local path_to_lazy = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(path_to_lazy) then
