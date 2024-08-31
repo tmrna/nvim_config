@@ -11,9 +11,6 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			opts = {
 				ensure_installed = vim.tbl_keys({
-					rust_analyzer = {},
-					gopls = {},
-					tsserver = {},
 					lua_ls = {
 						workspace = { checkThirdParty = false },
 						telemetry = { enable = false }
