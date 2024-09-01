@@ -24,9 +24,6 @@ vim.o.updatetime = 250
 vim.o.timeout = true
 vim.o.timeoutlen = 300
 
--- enable termgui colors
-vim.o.termguicolors = true
-
 -- spell language
 vim.spelllang = 'en_us'
 
