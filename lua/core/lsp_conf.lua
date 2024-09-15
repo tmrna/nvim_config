@@ -88,7 +88,14 @@ return {
 						on_attach = on_attach,
 						settings = servers[server_name]
 					}
+					return
 				end
+
+				local jdtls = require('jdtls')
+				jdtls.start_or_attach({
+					cmd = {'jdtls'},
+					on_attach = on_attach
+				})
 			end
 		}
 
