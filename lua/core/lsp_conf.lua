@@ -55,7 +55,7 @@ return {
 				vim.lsp.buf.format()
 			end
 			, { desc = 'format the current buffer' })
-			nmap('<leader>f', vim.cmd.Format, 'format curr buff')
+			nmap('<leader>F', vim.cmd.Format, 'format curr buff')
 		end
 
 
@@ -93,7 +93,7 @@ return {
 
 				local jdtls = require('jdtls')
 				jdtls.start_or_attach({
-					cmd = {'jdtls'},
+					cmd = { 'jdtls' },
 					on_attach = on_attach
 				})
 			end
