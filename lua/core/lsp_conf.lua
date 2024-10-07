@@ -1,4 +1,8 @@
-return {
+local nvim_version = vim.version()
+-- require legacy version if using nvim version older than 0.10.0
+local use_legacy = nvim_version.minor < 10 and nvim_version.major == 0
+
+local config = {
 
 	-- packages
 	"neovim/nvim-lspconfig",
@@ -9,10 +13,6 @@ return {
 		},
 		{
 			"williamboman/mason-lspconfig.nvim",
-		},
-		{
-			-- switching to lazydev, neodev is EOL
-			"folke/lazydev.nvim",
 		},
 		{
 			-- lsp progress indicator
@@ -44,7 +44,8 @@ return {
 			nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 			nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
 			nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-			nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols, 'search document symbols')
+			nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols,
+				'search document symbols')
 			nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
 				'[W]orkspace [S]ymbols')
 
@@ -59,8 +60,11 @@ return {
 		end
 
 
-		-- setup lazydev
-		require('lazydev').setup()
+		if use_legacy then
+			require('neodev').setup()
+		else
+			require('lazydev').setup()
+		end
 
 		-- setup lsp capabilities
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -121,3 +125,17 @@ return {
 	-- basic keymaps
 	vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
 }
+
+if use_legacy then
+
+	config.dependencies[5] = {
+		"folke/neodev.nvim"
+	}
+else
+	config.dependencies[5] = {
+		"folke/lazydev.nvim"
+	}
+end
+
+
+return config
