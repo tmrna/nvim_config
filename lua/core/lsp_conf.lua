@@ -113,6 +113,7 @@ local config = {
 					behavior = cmp.ConfirmBehavior.Replace,
 					select = true
 				},
+				['<tab>'] = cmp.mapping.select_next_item()
 			},
 			sources = {
 				{ name = 'nvim_lsp' }
