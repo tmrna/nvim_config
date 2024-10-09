@@ -13,7 +13,8 @@ telescope.setup {
 				n = {
 					["<CR>"] = telescope_actions.git_switch_branch,
 					['d'] = telescope_actions.git_delete_branch,
-					['<leader>cb'] = telescope_actions.git_create_branch
+					['<leader>cb'] = telescope_actions.git_create_branch,
+					['<leader>mb'] = telescope_actions.git_merge_branch
 				}
 			}
 		}
