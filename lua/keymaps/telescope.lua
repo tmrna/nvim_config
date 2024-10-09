@@ -5,6 +5,7 @@ local telescope = require('telescope')
 telescope.setup {
 	pickers = {
 		git_branches = {
+			prompt_title = 'Switch Branch',
 			mappings = {
 				i = {
 					["<CR>"] = telescope_actions.git_switch_branch
