@@ -66,7 +66,7 @@ vim.opt.rtp:prepend(path_to_lazy)
 require('lazy').setup({
 	{ import = "core" },
 	{ import = "plugins" },
-	{ import = 'lang_specific'},
+	--{ import = 'lang_specific'},
 	{ import = "keymaps" },
 	{ import = "colorschemes" }
 }, {})
@@ -87,5 +87,3 @@ require('nvim-treesitter.configs').setup {
 	highlight = { enable = true },
 	indent = { enable = true },
 }
-
-vim.api.nvim_command("MasonToolsInstall")

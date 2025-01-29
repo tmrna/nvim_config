@@ -29,10 +29,18 @@ local tbl = {
 
 	vim.keymap.set('n', '<leader>gf', telescope_builtin.git_files,
 		{ desc = 'Search [G]it [F]iles' }),
+<<<<<<< Updated upstream
 	vim.keymap.set('n', '<leader>sb', telescope_builtin.git_branches, { desc = '[S]witch [B]ranch' }),
 	vim.keymap.set('n', '<leader>sf', telescope_builtin.find_files, { desc = '[S]earch [F]iles' }),
 	vim.keymap.set('n', '<leader>sh', telescope_builtin.help_tags, { desc = '[S]earch [H]elp' }),
 	vim.keymap.set('n', '<leader>sw', telescope_builtin.grep_string,
+=======
+	vim.keymap.set('n', '<leader>sb', require('telescope.builtin').git_branches, { desc = '[S]earch git [B]ranches' }),
+	vim.keymap.set('n', '<leader>gr', require('telescope.builtin').lsp_references, {desc = "[G]o [R]eferences"}),
+	vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' }),
+	vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' }),
+	vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string,
+>>>>>>> Stashed changes
 		{ desc = '[S]earch current [W]ord' }),
 	vim.keymap.set('n', '<leader>sg', function()
 		telescope_builtin.live_grep {
