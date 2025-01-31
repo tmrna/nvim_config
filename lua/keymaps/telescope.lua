@@ -32,8 +32,8 @@ local tbl = {
 	vim.keymap.set('n', '<leader>sb', telescope_builtin.git_branches, { desc = '[S]witch [B]ranch' }),
 	vim.keymap.set('n', '<leader>sf', telescope_builtin.find_files, { desc = '[S]earch [F]iles' }),
 	vim.keymap.set('n', '<leader>sh', telescope_builtin.help_tags, { desc = '[S]earch [H]elp' }),
-	vim.keymap.set('n', '<leader>sw', telescope_builtin.grep_string,
-		{ desc = '[S]earch current [W]ord' }),
+	vim.keymap.set('n', '<leader>sw', telescope_builtin.grep_string, { desc = "[S]earch current [W]ord"}),
+	vim.keymap.set('n', '<leader>gr', require('telescope.builtin').lsp_references, {desc = "[G]o [R]eferences"}),
 	vim.keymap.set('n', '<leader>sg', function()
 		telescope_builtin.live_grep {
 			find_command = { 'rg', '--files', '--regexp' },
