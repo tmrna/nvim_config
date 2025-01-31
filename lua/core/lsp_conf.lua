@@ -113,25 +113,7 @@ local config = {
             end
         }
 
-<<<<<<< Updated upstream
-		-- configure cmp
-		local cmp = require('cmp')
-		cmp.setup {
-			mapping = cmp.mapping.preset.insert {
-				['<c-j>'] = cmp.mapping.select_next_item(),
-				["<c-k>"] = cmp.mapping.select_prev_item(),
-				['<CR>'] = cmp.mapping.confirm {
-					behavior = cmp.ConfirmBehavior.Replace,
-					select = true
-				},
-				['<tab>'] = cmp.mapping.select_next_item()
-			},
-			sources = {
-				{ name = 'nvim_lsp' }
-			}
-		}
-	end,
-=======
+
         -- configure cmp
         local cmp = require('cmp')
         cmp.setup {
@@ -154,7 +136,6 @@ local config = {
             }
         }
     end,
->>>>>>> Stashed changes
 
     opts = {},
 

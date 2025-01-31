@@ -5,9 +5,5 @@ return {
 	vim.api.nvim_set_keymap('n', '<leader>gss', ':Git add *<CR>:Git stash<CR>', {desc = '[G]it [S]tash'}),
 	vim.api.nvim_set_keymap('n', '<leader>gsa', ':Git stash apply 0<CR>', {desc = '[G]it [S]tash [A]pply'}),
 	vim.api.nvim_set_keymap('n', '<leader>gsc', ':Git stash clear<CR>', {desc = '[G]it [S]tash [C]lear'}),
-<<<<<<< Updated upstream
-	vim.api.nvim_set_keymap('n', '<leader>gmt', ':Git mergetool<CR>', {desc = '[G]it [M]ergetool'})
-=======
 	vim.api.nvim_set_keymap('n', '<leader>gmt', ':Git mergetool<cr>', {desc = '[G]it [M]erge[T]ool'})
->>>>>>> Stashed changes
 }
