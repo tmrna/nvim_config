@@ -1,3 +1,6 @@
+-- determine os
+local is_windows = package.config:sub(1,1)=="\\"
+
 -- vim settings
 -- leader
 vim.g.mapleader = ' '
@@ -62,14 +65,20 @@ if not vim.loop.fs_stat(path_to_lazy) then
 end
 vim.opt.rtp:prepend(path_to_lazy)
 
--- import modules for lazy to handle
-require('lazy').setup({
+local imports = {
 	{ import = "core" },
 	{ import = "plugins" },
-	--{ import = 'lang_specific'},
 	{ import = "keymaps" },
-	{ import = "colorschemes" }
-}, {})
+	{ import = "colorschemes" },
+	{ import = "core" }
+}
+
+if not is_windows then
+	imports[5].import = "lang_specific"
+end
+
+-- import modules for lazy to handle
+require('lazy').setup(imports, {})
 
 -- load fzf native
 pcall(require('telescope').load_extension, 'fzf')
