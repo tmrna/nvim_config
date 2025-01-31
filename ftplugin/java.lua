@@ -164,7 +164,7 @@ if not is_windows then
     { desc = 'dap step over' })
   vim.keymap.set("n", "<leader>do", "<cmd>lua require'dap'.step_out()<cr>",
     { desc = 'dap step out' })
-  vim.keymap.set("n", '<leader>dd', function()
+  vim.keymap.set("n", '<leader>dis', function()
     require('dap').disconnect(); require('dapui').close();
   end, { desc = 'dap disconnect' })
   vim.keymap.set("n", '<leader>dt', function()
