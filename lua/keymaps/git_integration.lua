@@ -1,5 +1,5 @@
 return {
-	vim.api.nvim_set_keymap('n', '<leader>gc', ':Git commit -m "#"<left>', {desc = '[G]it [C]ommit'}),
+	vim.api.nvim_set_keymap('n', '<leader>gc', ':Git commit -m ""<left>', {desc = '[G]it [C]ommit'}),
 	vim.api.nvim_set_keymap('n', '<leader>gaa', ':Git add *<CR>', {desc = '[G]it [A]dd [A]ll'}),
 	vim.api.nvim_set_keymap('n', '<leader>gpr', ':Git push<CR>', {desc = '[G]it [R]emote [P]ush'}),
 	vim.api.nvim_set_keymap('n', '<leader>gss', ':Git add *<CR>:Git stash<CR>', {desc = '[G]it [S]tash'}),
