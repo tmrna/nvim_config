@@ -69,13 +69,8 @@ local imports = {
 	{ import = "core" },
 	{ import = "plugins" },
 	{ import = "keymaps" },
-	{ import = "colorschemes" },
 	{ import = "core" }
 }
-
-if not is_windows then
-	imports[5].import = "lang_specific"
-end
 
 -- import modules for lazy to handle
 require('lazy').setup(imports, {})
@@ -84,4 +79,4 @@ require('lazy').setup(imports, {})
 pcall(require('telescope').load_extension, 'fzf')
 
 -- select colorscheme
-vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[colorscheme retrobox]]
