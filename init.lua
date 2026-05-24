@@ -85,14 +85,3 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- select colorscheme
 vim.cmd [[colorscheme gruvbox]]
-
--- config treesitter
-require('nvim-treesitter.configs').setup {
-	ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
-
-	-- don't attempt to install on buff load
-	auto_install = false,
-
-	highlight = { enable = true },
-	indent = { enable = true },
-}
