@@ -1,157 +1,176 @@
 local nvim_version = vim.version()
--- require legacy version if using nvim version older than 0.10.0
-local use_legacy = nvim_version.minor < 10 and nvim_version.major == 0
+local use_legacy = nvim_version.major == 0 and nvim_version.minor < 10
 
 local config = {
+	"neovim/nvim-lspconfig",
 
-    -- packages
-    "neovim/nvim-lspconfig",
-    dependencies = {
-        {
-            "williamboman/mason.nvim",
-            config = true
-        },
-        {
-            "williamboman/mason-lspconfig.nvim",
-        },
-        {
-            -- lsp progress indicator
-            "j-hui/fidget.nvim",
-            tag = "legacy",
-            opts = {}
-        },
-        {
-            'hrsh7th/nvim-cmp',
-            dependencies = {
-                'hrsh7th/cmp-nvim-lsp',
-                -- Snippet Engine & its associated nvim-cmp source
-                'L3MON4D3/LuaSnip',
-                'saadparwaiz1/cmp_luasnip',
+	dependencies = {
+		{
+			"williamboman/mason.nvim",
+			config = true,
+		},
 
-                -- Adds LSP completion capabilities
-                'hrsh7th/cmp-nvim-lsp',
+		{
+			"williamboman/mason-lspconfig.nvim",
+		},
 
-                -- Adds a number of user-friendly snippets
-                'rafamadriz/friendly-snippets',
-            }
-        }
-    },
+		{
+			"j-hui/fidget.nvim",
+			opts = {},
+		},
 
-    config = function()
-        local on_attach = function(_, bufnr)
-            local nmap = function(keys, func, desc)
-                if desc then
-                    desc = 'LSP: ' .. desc
-                end
-                vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-            end
+		{
+			"hrsh7th/nvim-cmp",
+			dependencies = {
+				"hrsh7th/cmp-nvim-lsp",
+				"L3MON4D3/LuaSnip",
+				"saadparwaiz1/cmp_luasnip",
+				"rafamadriz/friendly-snippets",
+			},
+		},
+	},
 
-            nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-            nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+	config = function()
+		-- lua tooling
+		if use_legacy then
+			require("neodev").setup()
+		else
+			require("lazydev").setup()
+		end
 
-            nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-            nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-            nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-            nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-            nmap('<leader>sds', require('telescope.builtin').lsp_document_symbols,
-                'search document symbols')
-            nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
-                '[W]orkspace [S]ymbols')
+		require("luasnip").setup()
 
-            nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-            nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+		-- lsp attach keymaps
+		vim.api.nvim_create_autocmd("LspAttach", {
+			callback = function(event)
+				local bufnr = event.buf
 
-            vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-                vim.lsp.buf.format()
-            end
-            , { desc = 'format the current buffer' })
-            nmap('<leader>F', vim.cmd.Format, 'format curr buff')
-        end
+				local nmap = function(keys, func, desc)
+					vim.keymap.set("n", keys, func, {
+						buffer = bufnr,
+						desc = "LSP: " .. desc,
+					})
+				end
 
+				nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+				nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-        if use_legacy then
-            require('neodev').setup()
-        else
-            require('lazydev').setup()
-        end
-        require('luasnip').setup()
+				nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+				nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+				nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 
-        -- setup lsp capabilities
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+				nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 
-        -- define servers that should be installed
-        local servers = {
-            lua_ls = {
-                workspace = { checkThirdParty = false },
-                telemetry = { enable = false }
-            }
-        }
+				nmap(
+					"<leader>sds",
+					require("telescope.builtin").lsp_document_symbols,
+					"[S]earch [D]ocument [S]ymbols"
+				)
 
+				nmap(
+					"<leader>ws",
+					require("telescope.builtin").lsp_dynamic_workspace_symbols,
+					"[W]orkspace [S]ymbols"
+				)
 
-        -- setup mason
-        local mason_lspconfig = require('mason-lspconfig')
+				nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+				nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
-        mason_lspconfig.setup { ensure_installed = vim.tbl_keys(servers) }
+				vim.api.nvim_buf_create_user_command(bufnr, "Format", function()
+					vim.lsp.buf.format()
+				end, { desc = "Format current buffer" })
 
-        mason_lspconfig.setup_handlers {
-            function(server_name)
-                if server_name ~= 'jdtls' then
-                    require('lspconfig')[server_name].setup {
-                        capabilities = capabilities,
-                        on_attach = on_attach,
-                        settings = servers[server_name]
-                    }
-                    return
-                end
+				nmap("<leader>F", "<cmd>Format<CR>", "[F]ormat buffer")
+			end,
+		})
 
-                local jdtls = require('jdtls')
-                jdtls.start_or_attach({
-                    cmd = { 'jdtls' },
-                    on_attach = on_attach
-                })
-            end
-        }
+		-- completion capabilities
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+		-- servers
+		local servers = {
+			lua_ls = {
+				settings = {
+					Lua = {
+						workspace = {
+							checkThirdParty = false,
+						},
+						telemetry = {
+							enable = false,
+						},
+					},
+				},
+			},
+		}
 
-        -- configure cmp
-        local cmp = require('cmp')
-        cmp.setup {
-            mapping = cmp.mapping.preset.insert {
-                ['<c-j>'] = cmp.mapping.select_next_item(),
-                ["<c-k>"] = cmp.mapping.select_prev_item(),
-                ['<CR>'] = cmp.mapping.confirm {
-                    behavior = cmp.ConfirmBehavior.Replace,
-                    select = true
-                },
-                ['<TAB>'] = cmp.mapping.select_next_item()
-            },
-            sources = {
-                { name = 'nvim_lsp' }
-            },
-            snippet = {
-                expand = function(args)
-                    require('luasnip').lsp_expand(args.body)
-                end
-            }
-        }
-    end,
+		-- mason
+		require("mason").setup()
 
-    opts = {},
+		local mason_lspconfig = require("mason-lspconfig")
 
-    -- basic keymaps
-    vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
+		mason_lspconfig.setup({
+			ensure_installed = vim.tbl_keys(servers),
+		})
+
+		-- modern nvim 0.11+ lsp setup
+		for server_name, server_config in pairs(servers) do
+			server_config.capabilities = capabilities
+
+			vim.lsp.config(server_name, server_config)
+			vim.lsp.enable(server_name)
+		end
+
+		-- cmp
+		local cmp = require("cmp")
+
+		cmp.setup({
+			snippet = {
+				expand = function(args)
+					require("luasnip").lsp_expand(args.body)
+				end,
+			},
+
+			mapping = cmp.mapping.preset.insert({
+				["<C-j>"] = cmp.mapping.select_next_item(),
+				["<C-k>"] = cmp.mapping.select_prev_item(),
+
+				["<CR>"] = cmp.mapping.confirm({
+					behavior = cmp.ConfirmBehavior.Replace,
+					select = true,
+				}),
+
+				["<Tab>"] = cmp.mapping.select_next_item(),
+			}),
+
+			sources = {
+				{ name = "nvim_lsp" },
+				{ name = "luasnip" },
+			},
+		})
+
+		-- global diagnostics
+		vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, {
+			desc = "Show diagnostics",
+		})
+
+		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
+			desc = "Previous diagnostic",
+		})
+
+		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {
+			desc = "Next diagnostic",
+		})
+	end,
 }
 
 if use_legacy then
-    config.dependencies[5] = {
-        "folke/neodev.nvim"
-    }
+	table.insert(config.dependencies, {
+		"folke/neodev.nvim",
+	})
 else
-    config.dependencies[5] = {
-        "folke/lazydev.nvim"
-    }
+	table.insert(config.dependencies, {
+		"folke/lazydev.nvim",
+	})
 end
-
 
 return config
