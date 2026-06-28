@@ -80,6 +80,3 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- select colorscheme
 vim.cmd [[colorscheme retrobox]]
-
--- expandable like nvimtree
-vim.g.netrw_liststyle = 3
