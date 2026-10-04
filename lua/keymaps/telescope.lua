@@ -24,7 +24,7 @@ telescope.setup {
 local tbl = {
 	vim.keymap.set('n', '<leader>?', telescope_builtin.oldfiles,
 		{ desc = '[?] Find recently opened files' }),
-	vim.keymap.set('n', '<leader><space>', telescope_builtin.buffers,
+	vim.keymap.set('n', '<leader>/', telescope_builtin.buffers,
 		{ desc = '[ ] Find existing buffers' }),
 
 	vim.keymap.set('n', '<leader>gf', telescope_builtin.git_files,
@@ -39,7 +39,7 @@ local tbl = {
 			find_command = { 'rg', '--files', '--regexp' },
 			prompt_title = "Regex search"
 		}
-	end, { desc = '[S]earch [G]rep with regex' })
+	end, { desc = '[S]earch [G]rep' })
 }
 
 return tbl
