@@ -6,5 +6,6 @@ return {
 	vim.api.nvim_set_keymap('n', '<leader>gsa', ':Git stash apply 0<CR>', {desc = '[G]it [S]tash [A]pply'}),
 	vim.api.nvim_set_keymap('n', '<leader>gsc', ':Git stash clear<CR>', {desc = '[G]it [S]tash [C]lear'}),
 	vim.api.nvim_set_keymap('n', '<leader>gmt', ':Git mergetool<cr>', {desc = '[G]it [M]erge[T]ool'}),
-	vim.api.nvim_set_keymap('n', '<leader>gsd', ":Telescope git_status<cr>", {desc = '[G]it [S]earch [D]iffable files'})
+	vim.api.nvim_set_keymap('n', '<leader>gsd', ":Telescope git_status<cr>", {desc = '[G]it [S]earch [D]iffable files'}),
+	vim.keymap.set('n', '<leader>gb', ":Git blame<cr>", {desc = "Open [G]it [B]lame"})
 }
